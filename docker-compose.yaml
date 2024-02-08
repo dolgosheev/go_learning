@@ -1,0 +1,24 @@
+version: '3.8'
+name: redis-service
+services:
+  redis-server:
+    env_file:
+      - ./.env
+    environment:
+      - 'REDIS_PASSWORD=${REDIS_PASSWORD}'
+    image: redis:5.0.5-alpine3.9
+    ports:
+      - '6379:6379'
+    volumes:
+      - redis-data:/data
+    container_name: redis-server
+    entrypoint: ["redis-server", "--appendonly", "yes","--requirepass","${REDIS_PASSWORD}"]
+    restart: always
+    healthcheck:
+      test: [ "CMD", "redis-cli", "--raw", "incr", "ping" ]
+      interval: 1s
+      timeout: 3s
+      retries: 5
+
+volumes:
+  redis-data:

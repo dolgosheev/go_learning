@@ -2,6 +2,7 @@
 package main
 
 import (
+	redisClient "TestProject/src/redis"
 	"TestProject/src/test"
 	"bufio"
 	"fmt"
@@ -19,6 +20,12 @@ func main() {
 	fmt.Println(str)
 	test.GetMe(&str)
 	fmt.Println(str)
+
+	redisClient.SetValue("1", 89831143406, time.Second*15)
+
+	value := redisClient.GetValue("1")
+
+	fmt.Println("Redis value :", value)
 
 	/* количество попыток */
 	attempts := 5
