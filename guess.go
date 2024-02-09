@@ -4,6 +4,7 @@ package main
 import (
 	redisClient "TestProject/src/redis"
 	"TestProject/src/test"
+	"TestProject/src/test_service"
 	"bufio"
 	"fmt"
 	"log"
@@ -20,6 +21,9 @@ func main() {
 	fmt.Println(str)
 	test.GetMe(&str)
 	fmt.Println(str)
+
+	// Регистрация gRPC сервера
+	test_service.Register()
 
 	redisClient.SetValue("1", 89831143406, time.Second*15)
 

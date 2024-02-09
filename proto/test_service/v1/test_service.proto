@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+package test_service.v1;
+
+option go_package = "test_service/v1";
+
+service TestService {
+  rpc GetRandomNumber (GetRandomNumberRequest) returns (GetRandomNumberResponse);
+}
+
+message GetRandomNumberRequest {
+
+}
+
+message GetRandomNumberResponse {
+  int64 value = 1;
+}
