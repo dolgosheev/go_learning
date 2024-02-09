@@ -2,9 +2,6 @@
 package main
 
 import (
-	redisClient "TestProject/src/redis"
-	"TestProject/src/test"
-	"TestProject/src/test_service"
 	"bufio"
 	"fmt"
 	"log"
@@ -12,24 +9,26 @@ import (
 	"os"
 	"strconv"
 	"strings"
-	"time"
 )
 
 // main
 func main() {
-	str := "Hello"
-	fmt.Println(str)
-	test.GetMe(&str)
-	fmt.Println(str)
+	//str := "Hello"
+	//fmt.Println(str)
+	//test.GetMe(&str)
+	//fmt.Println(str)
+	//
+	//// Регистрация gRPC сервера
+	//test_service.Register()
+	//
+	//redisClient.SetValue("1", 89831143406, time.Second*15)
+	//
+	//value := redisClient.GetValue("1")
+	//
+	//fmt.Println("Redis value :", value)
 
-	// Регистрация gRPC сервера
-	test_service.Register()
-
-	redisClient.SetValue("1", 89831143406, time.Second*15)
-
-	value := redisClient.GetValue("1")
-
-	fmt.Println("Redis value :", value)
+	/* регистрация введенных вариантов */
+	var attemptsValues []int
 
 	/* количество попыток */
 	attempts := 5
@@ -62,6 +61,8 @@ func main() {
 		/* ошибка и выход */
 		logError(err, "Не удалось привести полученное значение к числу")
 
+		attemptsValues = append(attemptsValues, inputValue)
+
 		/* отгадали */
 		if inputValue == answerNumber {
 			break
@@ -77,6 +78,7 @@ func main() {
 	}
 
 	fmt.Printf("\tВы отгадали число [%d] c %d попытки", answerNumber, attempt)
+	fmt.Printf("\r\n\tВаши варианты были %v", strings.Trim(strings.Replace(fmt.Sprint(attemptsValues), " ", ",", -1), "[]"))
 }
 
 // logError функция для вывода ошибок
@@ -89,7 +91,7 @@ func logError(err error, description string) {
 // getRandomNumber функция получения случайного числа
 func getRandomNumber(maxValue int) (random int) {
 	/* рандомизация по времени */
-	rand.Seed(time.Now().Unix())
+	//rand.Seed(time.Now().Unix())
 
 	return rand.Intn(maxValue) + 1
 }
